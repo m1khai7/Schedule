@@ -70,7 +70,6 @@
     <string name="delete_educator">Удалить преподавателя «%1$s»?</string>
     <string name="delete_typelesson">Удалить тип предмета «%1$s»?</string>
     <string name="ack">Подтвердить</string>
-    <string name="cancel">Отмена</string>
 
     <string name="clear_day">Очистить день</string>
     <string name="string_empty_lesson">Занятие отсутствует</string>
@@ -82,8 +81,8 @@
     <string name="title_transfer_data">Импорт / экспорт расписания</string>
     <string name="feedback_developer">Обратная связь с разработчиком</string>
     <string name="string_email_developer">Электронная почта</string>
-    <string name="string_vk_developer">Профиль Вконтакте</string>
-    <string name="vk_developer">https://vk.com/m1chaelvolkov</string>
+    <string name="string_tg_developer">Telegram</string>
+    <string name="tg_developer">https://t.me/volkovmike</string>
     <string name="email_developer">mailto:mikhailvolkov2014–2014@ya.ru</string>
     <string name="title_edit_data">Редактор данных</string>
     <string name="title_calls">Расписание звонков</string>

@@ -1,5 +1,6 @@
 package myapp.schedule.misha.myapplication.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,6 +9,7 @@ import myapp.schedule.misha.myapplication.common.core.BaseActivity;
 import myapp.schedule.misha.myapplication.data.database.DatabaseHelper;
 import myapp.schedule.misha.myapplication.data.database.dao.CallDao;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashActivity extends BaseActivity {
 
     @Override

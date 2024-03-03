@@ -160,7 +160,8 @@ public class EditScheduleFragmentPagerAdapter extends RecyclerView.Adapter<EditS
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(ScheduleApp.getStr(R.string.dialog_clear_day))
                         .setPositiveButton(ScheduleApp.getStr(R.string.ack), (dialog, idButton) -> callback.onClearDayClick())
-                        .setNegativeButton(ScheduleApp.getStr(R.string.cancel), (dialog, idButton) -> dialog.cancel());
+                        .setNegativeButton(ScheduleApp.getStr(android.R.string.cancel),
+                                (dialog, idButton) -> dialog.cancel());
                 builder.create().show();
             }
             return true;

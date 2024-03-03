@@ -9,8 +9,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import myapp.schedule.misha.myapplication.R;
 import myapp.schedule.misha.myapplication.common.core.BaseActivity;
-import myapp.schedule.misha.myapplication.data.database.DatabaseHelper;
-import myapp.schedule.misha.myapplication.data.database.dao.CallDao;
 import myapp.schedule.misha.myapplication.module.calls.CallsFragment;
 import myapp.schedule.misha.myapplication.module.editData.EditDataFragment;
 import myapp.schedule.misha.myapplication.module.exploreList.ScheduleListFragment;

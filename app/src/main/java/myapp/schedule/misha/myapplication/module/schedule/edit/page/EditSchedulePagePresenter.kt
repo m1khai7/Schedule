@@ -120,7 +120,7 @@ class EditSchedulePagePresenter(private val context: BaseActivity, private var p
                     }
                 }
             }
-        }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }.setTitle(R.string.copy_week)
+        }.setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }.setTitle(R.string.copy_week)
         builder.create().show()
     }
 
@@ -138,7 +138,7 @@ class EditSchedulePagePresenter(private val context: BaseActivity, private var p
                 }
             }
             context.sendResultToTarget(EditSchedulePageFragment::class.java, DialogSelectWeekFragmentView.ACK_CLEAR, Activity.RESULT_OK, null)
-        }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }.setTitle(R.string.delete_week)
+        }.setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.cancel() }.setTitle(R.string.delete_week)
         return builder.create().show()
     }
 

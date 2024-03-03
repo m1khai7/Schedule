@@ -82,7 +82,7 @@ public class EditDataFragment extends BaseMainFragment implements EditDataFragme
     public Dialog onCreateDialogClear(AbsDao dao, int titleClear) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(false).setPositiveButton(R.string.ack, (dialog, id) ->
-                presenter.onClear(dao)).setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel()).setTitle(titleClear);
+                presenter.onClear(dao)).setNegativeButton(android.R.string.cancel, (dialog, id) -> dialog.cancel()).setTitle(titleClear);
         return builder.create();
     }
 

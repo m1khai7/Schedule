@@ -95,11 +95,11 @@ public class MenuFragment extends BaseMainFragment implements MenuFragmentView, 
     public Dialog showDialogDevInfo() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.
-                setPositiveButton((R.string.string_vk_developer), (dialog, id) -> {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.vk_developer)));
+                setPositiveButton((R.string.string_tg_developer), (dialog, id) -> {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.tg_developer)));
                     startActivity(browserIntent);
                 }).
-                setNeutralButton(R.string.cancel, (dialog, id) -> dialog.cancel()).
+                setNeutralButton(android.R.string.cancel, (dialog, id) -> dialog.cancel()).
                 setNegativeButton((R.string.string_email_developer), (dialog, id) -> {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.email_developer)));
                     startActivity(browserIntent);
