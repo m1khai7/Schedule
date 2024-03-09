@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -152,7 +152,8 @@ public class JsonReaderPathTest {
     assertEquals("$", reader.getPath());
   }
 
-  @Test public void multipleTopLevelValuesInOneDocument() throws IOException {
+  @Test
+  public void multipleTopLevelValuesInOneDocument() throws IOException {
     assumeTrue(factory == Factory.STRING_READER);
 
     JsonReader reader = factory.create("[][]");

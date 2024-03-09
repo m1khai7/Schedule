@@ -20,7 +20,7 @@ import static org.junit.Assert.fail;
 
 import java.lang.reflect.Field;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link UnsafeReflectionAccessor}

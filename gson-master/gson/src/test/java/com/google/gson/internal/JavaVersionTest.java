@@ -17,7 +17,7 @@ package com.google.gson.internal;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.gson.internal.JavaVersion;
 
