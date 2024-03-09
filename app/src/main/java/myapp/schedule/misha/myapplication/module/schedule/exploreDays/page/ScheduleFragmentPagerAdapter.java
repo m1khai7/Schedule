@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -53,20 +54,22 @@ public class ScheduleFragmentPagerAdapter extends RecyclerView.Adapter {
         return codeViewType;
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        switch (viewType) {
-            case 0:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lesson, parent, false);
-                return new ViewHolderLesson(view);
-            case 1:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_empty_lesson, parent, false);
-                return new ViewHolderEmptyLesson(view);
-        }
-        return null;
-    }
+		return switch (viewType) {
+			case 0 -> {
+				view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lesson, parent, false);
+				yield new ViewHolderLesson(view);
+			}
+			case 1 -> {
+				view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_empty_lesson, parent, false);
+				yield new ViewHolderEmptyLesson(view);
+			}
+			default -> throw new IllegalStateException("Unexpected value: " + viewType);
+		};
+	}
 
     public void setLessonList(List<Lesson> lessonList) {
         this.lessonList = lessonList;
@@ -149,8 +152,8 @@ public class ScheduleFragmentPagerAdapter extends RecyclerView.Adapter {
             timeEditOne = view.findViewById(R.id.timeOne);
             timeEditTwo = view.findViewById(R.id.timeTwo);
             subjectEdit = view.findViewById(R.id.subject);
-            audienceEdit = view.findViewById(R.id.timeLesson);
-            educatorEdit = view.findViewById(R.id.day);
+            audienceEdit = view.findViewById(R.id.audience);
+            educatorEdit = view.findViewById(R.id.educator);
             typelessonEdit = view.findViewById(R.id.typelesson);
             subjectHint = view.findViewById(R.id.subject_hint);
             audienceHint = view.findViewById(R.id.audience_hint);

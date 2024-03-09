@@ -1,20 +1,21 @@
 package myapp.schedule.misha.myapplication.module.settings.transfer;
 
-import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,137 +23,133 @@ import myapp.schedule.misha.myapplication.R;
 import myapp.schedule.misha.myapplication.common.core.BaseMainFragment;
 import myapp.schedule.misha.myapplication.common.core.BasePresenter;
 import myapp.schedule.misha.myapplication.data.preferences.Preferences;
-import myapp.schedule.misha.myapplication.module.schedule.exploreDays.ScheduleFragment;
-import myapp.schedule.misha.myapplication.util.PermissionUtils;
 
-import static android.app.Activity.RESULT_OK;
 import static myapp.schedule.misha.myapplication.data.preferences.Preferences.DARK_THEME;
 import static myapp.schedule.misha.myapplication.data.preferences.Preferences.LIGHT_THEME;
 
-public class TransferFragment extends BaseMainFragment implements TransferFragmentView, View.OnClickListener {
+public class TransferFragment extends BaseMainFragment implements TransferFragmentView {
 
-    private static final int READ_EXTERNAL = 2;
-    private TransferPresenter presenter;
+	private final ActivityResultLauncher<String> getFileLauncher =
+			registerForActivityResult(
+					new ActivityResultContracts.GetContent(),
+					this::fileSelect
+			);
 
-    public static TransferFragment newInstance() {
-        return new TransferFragment();
-    }
+	private final ActivityResultLauncher<Intent> saveFileLauncher =
+			registerForActivityResult(
+					new ActivityResultContracts.StartActivityForResult(),
+					this::handleResultSavedFile
+			);
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        showIcon();
-        getContext().setCurrentTitle(R.string.title_transfer_data);
-    }
+	private TransferPresenter presenter;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        presenter = new TransferPresenter(getContext());
-    }
+	public static TransferFragment newInstance() {
+		return new TransferFragment();
+	}
 
-    @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_transfer_data, container, false);
-        RelativeLayout layoutImport = view.findViewById(R.id.rel_import);
-        RelativeLayout layoutExport = view.findViewById(R.id.rel_export);
-        ImageView imageImport = view.findViewById(R.id.image_date_start_semestr);
-        ImageView imageExport = view.findViewById(R.id.image_export);
-        if (Preferences.getInstance().getSelectedTheme().equals(DARK_THEME)) {
-            imageImport.setImageResource(R.drawable.ic_unarchive_white);
-            imageExport.setImageResource(R.drawable.ic_archive_white);
-        }
-        if (Preferences.getInstance().getSelectedTheme().equals(LIGHT_THEME)) {
-            imageImport.setImageResource(R.drawable.ic_unarchive_black);
-            imageExport.setImageResource(R.drawable.ic_archive_black);
-        }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		presenter = new TransferPresenter(getContext());
+	}
 
-        layoutImport.setOnClickListener(this);
-        layoutExport.setOnClickListener(this);
-        return view;
-    }
+	@Override
+	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_transfer_data, container, false);
+		TextView shareTv = view.findViewById(R.id.shareTv);
+		TextView receiveTv = view.findViewById(R.id.receiveTv);
+		TextView saveTv = view.findViewById(R.id.saveTv);
+		if (Preferences.getInstance().getSelectedTheme().equals(DARK_THEME)) {
+			shareTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_unarchive_white, 0, 0, 0);
+			receiveTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_archive_white, 0, 0, 0);
+			saveTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save_white, 0, 0, 0);
+		} else if (Preferences.getInstance().getSelectedTheme().equals(LIGHT_THEME)) {
+			shareTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_unarchive_black, 0, 0, 0);
+			receiveTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_archive_black, 0, 0, 0);
+			saveTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_save_black, 0, 0, 0);
+		}
 
+		shareTv.setOnClickListener(v -> presenter.onClickShareFile());
+		receiveTv.setOnClickListener(v -> presenter.onClickReceiveFile());
+		saveTv.setOnClickListener(v -> presenter.onClickSaveFile());
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        presenter.init();
-    }
+		setHasOptionsMenu(true);
+		return view;
+	}
 
-    public void openFragmentSchedule() {
-        Fragment newFragment = new ScheduleFragment();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, newFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
+	@Override
+	public void onResume() {
+		super.onResume();
+		showIcon();
+		getContext().setCurrentTitle(R.string.title_transfer_data);
+	}
 
-    @Override
-    public void openDirectory() {
-        if (!PermissionUtils.isGranted(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            PermissionUtils.requestPermission(getContext(), READ_EXTERNAL,
-                    Manifest.permission.READ_EXTERNAL_STORAGE, "");
-        } else {
-            open();
-        }
-    }
+	@Override
+	public void onCreateOptionsMenu(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+		inflater.inflate(R.menu.menu_info, menu);
+		if (Preferences.getInstance().getSelectedTheme().equals(DARK_THEME)) {
+			menu.findItem(R.id.btn_info).setIcon(R.drawable.ic_info_white);
+		}
+		if (Preferences.getInstance().getSelectedTheme().equals(LIGHT_THEME)) {
+			menu.findItem(R.id.btn_info).setIcon(R.drawable.ic_info_black);
+		}
+	}
 
-    private void open() {
-        Intent intent = new Intent();
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.setType("text/*");
-        startActivityForResult(intent, 10);
-    }
+	@Override
+	public boolean onOptionsItemSelected(@NotNull MenuItem item) {
+		if (item.getItemId() == R.id.btn_info) {
+			presenter.onInfoMenuClick();
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 10) {
-            if (resultCode == RESULT_OK) {
-                String filePath = null;
-                Uri _uri = data.getData();
-                if (_uri != null && "content".equals(_uri.getScheme())) {
-                    Cursor cursor = getContext().getContentResolver().query(_uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
-                    cursor.moveToFirst();
-                    filePath = cursor.getString(0);
-                    cursor.close();
-                } else {
-                    filePath = _uri.getPath();
-                }
-                System.out.println(filePath);
-                presenter.import_data(filePath);
-            }
-        }
-    }
+	@Override
+	public void selectFile() {
+		getFileLauncher.launch("*/*");
+	}
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == READ_EXTERNAL) {
-            openDirectory();
-        }
-    }
+	@Override
+	public void saveFile(String fileName) {
+		Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+		intent.addCategory(Intent.CATEGORY_OPENABLE);
+		intent.setType("application/json");
+		intent.putExtra(Intent.EXTRA_TITLE, fileName);
+		saveFileLauncher.launch(intent);
+	}
 
+	@Override
+	public void shareFile(Uri uri) {
+		final Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType("application/json");
+		intent.putExtra(Intent.EXTRA_STREAM, uri);
+		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+		startActivity(Intent.createChooser(intent, getString(R.string.title_share_data)));
+	}
 
-    @NonNull
-    @Override
-    protected BasePresenter getPresenter() {
-        return presenter;
-    }
+	@NonNull
+	@Override
+	protected BasePresenter getPresenter() {
+		return presenter;
+	}
 
-//Todo /external_files/Android/data/com.schedule.misha.myapplication/files/export.txt
-//Todo /storage/emulated/0/Android/data/com.schedule.misha.myapplication/files/export.txt
+	private void fileSelect(Uri uri) {
+		if (uri != null) {
+			presenter.parseFile(uri);
+		}
+	}
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.rel_import) {
-            presenter.onClickImport();
-        }
-        if (v.getId() == R.id.rel_export) {
-            presenter.onClickExport();
-        }
-    }
+	public void handleResultSavedFile(ActivityResult activityResult) {
+		if (activityResult.getResultCode() == Activity.RESULT_CANCELED) return;
+		if (activityResult.getResultCode() == Activity.RESULT_OK) {
+			if (activityResult.getData() != null) {
+				Uri uri = activityResult.getData().getData();
+				presenter.saveFileByUri(uri);
+			} else {
+				showSnack(R.string.error_save_file);
+			}
+		} else {
+			showSnack(R.string.error_save_file);
+		}
+	}
 }

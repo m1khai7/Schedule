@@ -11,17 +11,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import myapp.schedule.misha.myapplication.ScheduleApp;
 import myapp.schedule.misha.myapplication.data.preferences.Preferences;
 import myapp.schedule.misha.myapplication.entity.Lesson;
 
 public final class DataUtil {
 
     public static long getCurrWeek() {
-        long selectDate = Long.valueOf(Preferences.getInstance().getSemestrStart());
+        long selectDate = Long.parseLong(Preferences.getInstance().getSemestrStart());
         long differentBetweenDate = Calendar.getInstance().getTimeInMillis() - selectDate;
         int calculateWeek = (int) (differentBetweenDate / (7 * 24 * 60 * 60 * 1000));
-        return calculateWeek >= 16 ? 16 : calculateWeek;
+        return Math.min(calculateWeek, 16);
     }
 
     public static void hintKeyboard(Activity context) {
@@ -39,7 +38,7 @@ public final class DataUtil {
 
     public static String dateDay(ArrayList<Lesson> lessonArrayList, int position) {
         Calendar mCalendar = Calendar.getInstance();
-        mCalendar.setTimeInMillis(Long.valueOf(Preferences.getInstance().getSemestrStart()));
+        mCalendar.setTimeInMillis(Long.parseLong(Preferences.getInstance().getSemestrStart()));
         mCalendar.setFirstDayOfWeek(Calendar.MONDAY);
         mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         String pattern = "EEEE, d MMMM";

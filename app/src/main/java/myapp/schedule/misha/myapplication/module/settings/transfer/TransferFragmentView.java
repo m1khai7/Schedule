@@ -1,16 +1,14 @@
 package myapp.schedule.misha.myapplication.module.settings.transfer;
 
+import android.net.Uri;
+
 import myapp.schedule.misha.myapplication.common.core.BaseView;
 
 public interface TransferFragmentView extends BaseView {
 
-    void openFragmentSchedule();
+	void shareFile(Uri uri);
 
-    void showProgressDialog();
+	void selectFile();
 
-    void hideProgressDialog();
-
-    void openDirectory();
-
-
+	void saveFile(String fileName);
 }

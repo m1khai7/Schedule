@@ -12,7 +12,7 @@ import myapp.schedule.misha.myapplication.data.database.dao.LessonDao;
 import myapp.schedule.misha.myapplication.data.database.dao.SubjectDao;
 import myapp.schedule.misha.myapplication.data.database.dao.TypelessonDao;
 
-public class ExportData {
+public class CollectSchedule {
 
     @Expose
     @SerializedName("audiences")
@@ -37,6 +37,4 @@ public class ExportData {
     @Expose
     @SerializedName("calls")
     private ArrayList<Calls> calls = CallDao.getInstance().getAllData();
-
-
 }

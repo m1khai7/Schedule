@@ -90,9 +90,9 @@ public class DialogEditFragmentListItems extends BaseAlertDialog implements Dial
         rvItems = view.findViewById(R.id.rv_dialog_list);
         rvItems.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         updateItemsAdapter(listItems);
-        Button button_add = view.findViewById(R.id.btn_ok);
+        Button button_add = view.findViewById(R.id.btn_add);
         button_add.setOnClickListener(v -> presenter.onItemClick(fragmentCode));
-        Button button_cancel = view.findViewById(R.id.btn_cancel);
+        Button button_cancel = view.findViewById(R.id.btn_close);
         button_cancel.setOnClickListener(v -> dismiss());
         return builder.create();
     }

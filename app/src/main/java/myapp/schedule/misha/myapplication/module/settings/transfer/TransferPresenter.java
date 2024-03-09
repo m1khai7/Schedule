@@ -1,34 +1,5 @@
 package myapp.schedule.misha.myapplication.module.settings.transfer;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import myapp.schedule.misha.myapplication.common.core.BaseMainPresenter;
-import myapp.schedule.misha.myapplication.data.database.AppContentProvider;
-import myapp.schedule.misha.myapplication.data.database.DatabaseHelper;
-import myapp.schedule.misha.myapplication.data.database.dao.AudienceDao;
-import myapp.schedule.misha.myapplication.data.database.dao.CallDao;
-import myapp.schedule.misha.myapplication.data.database.dao.EducatorDao;
-import myapp.schedule.misha.myapplication.data.database.dao.LessonDao;
-import myapp.schedule.misha.myapplication.data.database.dao.SubjectDao;
-import myapp.schedule.misha.myapplication.data.database.dao.TypelessonDao;
-import myapp.schedule.misha.myapplication.entity.ExportData;
-import myapp.schedule.misha.myapplication.entity.ImportData;
-
 import static myapp.schedule.misha.myapplication.data.database.dao.LessonDao.ID;
 import static myapp.schedule.misha.myapplication.data.database.dao.LessonDao.ID_AUDIENCE;
 import static myapp.schedule.misha.myapplication.data.database.dao.LessonDao.ID_EDUCATOR;
@@ -38,118 +9,227 @@ import static myapp.schedule.misha.myapplication.data.database.dao.LessonDao.NUM
 import static myapp.schedule.misha.myapplication.data.database.dao.LessonDao.NUMBER_LESSON;
 import static myapp.schedule.misha.myapplication.data.database.dao.LessonDao.NUMBER_WEEK;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+
+import myapp.schedule.misha.myapplication.NewFileProvider;
+import myapp.schedule.misha.myapplication.R;
+import myapp.schedule.misha.myapplication.ScheduleApp;
+import myapp.schedule.misha.myapplication.common.core.BaseMainPresenter;
+import myapp.schedule.misha.myapplication.data.database.AppContentProvider;
+import myapp.schedule.misha.myapplication.data.database.DatabaseHelper;
+import myapp.schedule.misha.myapplication.data.database.dao.AudienceDao;
+import myapp.schedule.misha.myapplication.data.database.dao.CallDao;
+import myapp.schedule.misha.myapplication.data.database.dao.EducatorDao;
+import myapp.schedule.misha.myapplication.data.database.dao.LessonDao;
+import myapp.schedule.misha.myapplication.data.database.dao.SubjectDao;
+import myapp.schedule.misha.myapplication.data.database.dao.TypelessonDao;
+import myapp.schedule.misha.myapplication.entity.CollectSchedule;
+import myapp.schedule.misha.myapplication.entity.Lesson;
+import myapp.schedule.misha.myapplication.entity.ParceSchedule;
+
 public class TransferPresenter extends BaseMainPresenter<TransferFragmentView> implements TransferPresenterInterface {
 
+	private final Context context;
 
-    private Context context;
+	private static final String FILE_NAME = "schedule.json";
 
-    public TransferPresenter(Context context) {
-        this.context = context;
-    }
+	private final ContentResolver contentResolver;
 
-    @Override
-    public void init() {
-    }
+	public TransferPresenter(Context context) {
+		this.context = context;
+		contentResolver = context.getContentResolver();
+	}
 
+	@Override
+	public void init() {
+	}
 
-    @Override
-    public void onClickImport() {
-        getView().openDirectory();
-    }
+	@Override
+	public void onClickShareFile() {
+		File scheduleJson = getScheduleFile();
+		String pathName = getClassPath(NewFileProvider.class);
+		getView().shareFile(NewFileProvider.getUriForFile(context, pathName, scheduleJson));
+	}
 
-    @Override
-    public void onClickExport() {
-        export_data();
-    }
+	public static String getClassPath(Class<?> value) {
+		if (value == null) {
+			return null;
+		}
+		char[] temp = value.getName().toCharArray();
+		Package path = value.getPackage();
+		for (int i = path == null ? 0 : path.getName().length() + 1; i < temp.length; i++) {
+			if (temp[i] == '.') {
+				temp[i] = '$';
+			}
+		}
+		return new String(temp);
+	}
 
+	@Override
+	public void onClickReceiveFile() {
+		getView().selectFile();
+	}
 
-    @Override
-    public void import_data(String file) {
-        StringBuilder text = new StringBuilder();
-        String jsonText = "";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line = br.readLine()) != null) {
-                text.append(line);
-            }
-            br.close();
-            jsonText = text.toString();
-        } catch (IOException e) {
+	@Override
+	public void onClickSaveFile() {
+		getView().saveFile(FILE_NAME);
+	}
 
-        }
+	@Override
+	public void parseFile(Uri uri) {
+		InputStream inputStream = null;
+		ParceSchedule jsonModelSchedule = null;
+		try {
+			inputStream = contentResolver.openInputStream(uri);
+			if (inputStream != null) {
+				int size = inputStream.available();
+				byte[] buffer = new byte[size];
+				inputStream.read(buffer);
+				inputStream.close();
+				String myJsonData = new String(buffer, StandardCharsets.UTF_8);
+				Gson gson = new Gson();
+				jsonModelSchedule = gson.fromJson(myJsonData, ParceSchedule.class);
+			} else {
+				getView().showSnack(R.string.error_load_schedule);
+			}
+		} catch (Exception e) {
+			Log.e("error", e.toString());
+			getView().showSnack(ScheduleApp.getStr(R.string.error_load_schedule));
+		} finally {
+			try {
+				if (inputStream != null) {
+					inputStream.close();
+				} else {
+					Log.e("error", "outputStream is null");
+					getView().showSnack(ScheduleApp.getStr(R.string.error_load_schedule));
+				}
+			} catch (IOException exception) {
+				Log.e("error", exception.toString());
+				getView().showSnack(ScheduleApp.getStr(R.string.error_load_schedule));
+			}
+		}
+		if (jsonModelSchedule != null) {
+			updateDatabase(jsonModelSchedule);
+		}
+	}
 
-        Gson gson = new Gson();
-        ImportData importData = gson.fromJson(jsonText, ImportData.class);
-        CallDao.getInstance().deleteAll();
-        CallDao.getInstance().insertAll(importData.getCalls());
-        SubjectDao.getInstance().deleteAll();
-        SubjectDao.getInstance().insertAll(importData.getSubjects());
-        AudienceDao.getInstance().deleteAll();
-        AudienceDao.getInstance().insertAll(importData.getAudiences());
-        EducatorDao.getInstance().deleteAll();
-        EducatorDao.getInstance().insertAll(importData.getEducators());
-        TypelessonDao.getInstance().deleteAll();
-        TypelessonDao.getInstance().insertAll(importData.getTypelessons());
-        LessonDao.getInstance().deleteAll();
-        DatabaseHelper databaseHelper = new DatabaseHelper(context);
-        SQLiteDatabase database = databaseHelper.getReadableDatabase();
-        ContentValues set;
-        database.beginTransaction();
-        try {
-            for (int i = 0; i < 612; i++) {
-                set = new ContentValues();
-                set.put(ID, i + 1);
-                set.put(NUMBER_WEEK, importData.getLessons().get(i).getNumber_week());
-                set.put(NUMBER_DAY, importData.getLessons().get(i).getNumber_day());
-                set.put(NUMBER_LESSON, importData.getLessons().get(i).getNumber_lesson());
-                set.put(ID_SUBJECT, importData.getLessons().get(i).getId_subject());
-                set.put(ID_AUDIENCE, importData.getLessons().get(i).getId_audience());
-                set.put(ID_EDUCATOR, importData.getLessons().get(i).getId_educator());
-                set.put(ID_TYPE_LESSON, importData.getLessons().get(i).getId_typelesson());
-                database.insert(AppContentProvider.LESSONS_TABLE, null, set);
-            }
-            database.setTransactionSuccessful();
-        } finally {
-            database.endTransaction();
-        }
-        getView().openFragmentSchedule();
-    }
+	@Override
+	public void onInfoMenuClick() {
+		getView().showSnack(ScheduleApp.getStr(R.string.transfer_info_snackbar),
+				ScheduleApp.getStr(android.R.string.ok), null);
+	}
 
+	@Override
+	public void saveFileByUri(Uri uri) {
+		OutputStream outputStream = null;
+		try {
+			outputStream = contentResolver.openOutputStream(uri);
+			if (outputStream != null) {
+				outputStream.write(getScheduleJsonByteArray());
+			}
+		} catch (Exception e) {
+			Log.e("error", e.toString());
+			getView().showSnack(ScheduleApp.getStr(R.string.error_parse_share));
+		} finally {
+			try {
+				if (outputStream != null) {
+					outputStream.close();
+					getView().showSnack(R.string.success_save_file);
+				} else {
+					Log.e("error", "outputStream is null");
+					getView().showSnack(ScheduleApp.getStr(R.string.error_parse_share));
+				}
+			} catch (IOException exception) {
+				Log.e("error", exception.toString());
+				getView().showSnack(ScheduleApp.getStr(R.string.error_parse_share));
+			}
+		}
+	}
 
-    private void export_data() {
-        String nameFile = "export.txt";
-        Gson gsonBuilder = new GsonBuilder().create();
-        String jsonFromJavaArrayList = gsonBuilder.toJson(new ExportData());
-        File file = new File(context.getExternalFilesDir(null), nameFile);
+	private File getScheduleFile() {
+		final File directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+		final File file = new File(directory, FILE_NAME);
+		FileOutputStream outputStream = null;
+		try {
+			outputStream = new FileOutputStream(file);
+			outputStream.write(getScheduleJsonByteArray());
+		} catch (Exception e) {
+			Log.e("error", e.toString());
+			getView().showSnack(ScheduleApp.getStr(R.string.error_parse_share));
+		} finally {
+			try {
+				if (outputStream != null) {
+					outputStream.close();
+				} else {
+					Log.e("error", "outputStream is null");
+					getView().showSnack(ScheduleApp.getStr(R.string.error_parse_share));
+				}
+			} catch (IOException exception) {
+				Log.e("error", exception.toString());
+				getView().showSnack(ScheduleApp.getStr(R.string.error_parse_share));
+			}
+		}
+		return file;
+	}
 
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        writer.print("");
-        writer.close();
+	private void updateDatabase(ParceSchedule modelSchedule) {
+		CallDao.getInstance().deleteAll();
+		CallDao.getInstance().insertAll(modelSchedule.getCalls());
+		SubjectDao.getInstance().deleteAll();
+		SubjectDao.getInstance().insertAll(modelSchedule.getSubjects());
+		AudienceDao.getInstance().deleteAll();
+		AudienceDao.getInstance().insertAll(modelSchedule.getAudiences());
+		EducatorDao.getInstance().deleteAll();
+		EducatorDao.getInstance().insertAll(modelSchedule.getEducators());
+		TypelessonDao.getInstance().deleteAll();
+		TypelessonDao.getInstance().insertAll(modelSchedule.getTypelessons());
+		LessonDao.getInstance().deleteAll();
 
-        FileOutputStream outputStream;
-        try {
-            file.createNewFile();
-            outputStream = new FileOutputStream(file, true);
-            outputStream.write(jsonFromJavaArrayList.getBytes());
-            outputStream.flush();
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		SQLiteDatabase database;
+		try (DatabaseHelper databaseHelper = new DatabaseHelper(context)) {
+			database = databaseHelper.getWritableDatabase();
+			database.beginTransaction();
+			for (int i = 0; i < 612; i++) {
+				Lesson lesson = modelSchedule.getLessons().get(i);
+				ContentValues set = new ContentValues();
+				set.put(ID, i + 1);
+				set.put(NUMBER_WEEK, lesson.getNumber_week());
+				set.put(NUMBER_DAY, lesson.getNumber_day());
+				set.put(NUMBER_LESSON, lesson.getNumber_lesson());
+				set.put(ID_SUBJECT, lesson.getId_subject());
+				set.put(ID_AUDIENCE, lesson.getId_audience());
+				set.put(ID_EDUCATOR, lesson.getId_educator());
+				set.put(ID_TYPE_LESSON, lesson.getId_typelesson());
+				database.insert(AppContentProvider.LESSONS_TABLE, null, set);
+			}
+			database.setTransactionSuccessful();
+			database.endTransaction();
+		} catch (Exception e) {
+			getView().showSnack(R.string.error_load_schedule);
+		} finally {
+			getView().showSnack(R.string.success_load_schedule);
+			getView().navigateToMain();
+		}
+	}
 
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-        shareIntent.setType("text/*");
-        context.startActivity(Intent.createChooser(shareIntent, "Отправить расписание"));
-
-
-    }
-
-
+	private byte[] getScheduleJsonByteArray() {
+		final Gson gsonBuilder = new GsonBuilder().create();
+		return gsonBuilder.toJson(new CollectSchedule()).getBytes();
+	}
 }

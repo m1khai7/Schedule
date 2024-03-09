@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,13 +28,14 @@ public class CopyFragmentAdapter extends RecyclerView.Adapter<CopyFragmentAdapte
 
     private ArrayList<CopyLesson> listItems;
 
-    private SimpleItemClickListener itemClickListener;
+    private final SimpleItemClickListener itemClickListener;
 
     public CopyFragmentAdapter(ArrayList<CopyLesson> listLessons, SimpleItemClickListener simpleItemClickListener) {
         this.listItems = listLessons;
         this.itemClickListener = simpleItemClickListener;
     }
 
+    @NonNull
     @Override
     public CopyFragmentAdapter.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_copy_lesson, parent, false);
@@ -62,8 +64,8 @@ public class CopyFragmentAdapter extends RecyclerView.Adapter<CopyFragmentAdapte
 
         private ViewHolder(View view) {
             super(view);
-            day = view.findViewById(R.id.day);
-            timeLesson = view.findViewById(R.id.timeLesson);
+            day = view.findViewById(R.id.educator);
+            timeLesson = view.findViewById(R.id.audience);
             ImageView imageDelete = view.findViewById(R.id.imageDelete);
             imageDelete.setOnClickListener(this);
             if (Preferences.getInstance().getSelectedTheme().equals(DARK_THEME)) {

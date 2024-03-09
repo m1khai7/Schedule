@@ -1,71 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/rel_import"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/shareTv"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_toStartOf="@id/rel_export"
-        android:orientation="horizontal">
+        android:layout_margin="@dimen/spacing_medium"
+        android:drawablePadding="@dimen/spacing_medium"
+        android:padding="@dimen/spacing_medium"
+        android:text="@string/button_share" />
 
-        <ImageView
-            android:id="@+id/image_date_start_semestr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_marginBottom="@dimen/spacing_medium"
-            android:padding="@dimen/spacing_medium" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_medium"
-            android:layout_toEndOf="@id/image_date_start_semestr"
-            android:padding="@dimen/spacing_medium"
-            android:text="@string/button_import"
-            android:textSize="16sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rel_export"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/receiveTv"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/spacing_normal"
-        android:orientation="horizontal">
+        android:layout_margin="@dimen/spacing_medium"
+        android:drawablePadding="@dimen/spacing_medium"
+        android:padding="@dimen/spacing_medium"
+        android:text="@string/button_load" />
 
-        <ImageView
-            android:id="@+id/image_export"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_marginBottom="@dimen/spacing_medium"
-            android:padding="@dimen/spacing_medium" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_medium"
-            android:layout_toEndOf="@id/image_export"
-            android:padding="@dimen/spacing_medium"
-            android:text="@string/button_export"
-            android:textSize="16sp" />
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/viewLine"
-        style="?attr/lineColorStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:layout_below="@+id/rel_import" />
-
-</RelativeLayout>
+    <TextView
+        android:id="@+id/saveTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_medium"
+        android:drawablePadding="@dimen/spacing_medium"
+        android:padding="@dimen/spacing_medium"
+        android:text="@string/button_save_file" />
+</LinearLayout>

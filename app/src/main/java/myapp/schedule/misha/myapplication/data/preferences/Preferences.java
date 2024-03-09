@@ -157,6 +157,4 @@ public final class Preferences implements PreferencesInterface {
     public void selectWeek(boolean select) {
         mPrefs.edit().putBoolean(WEEK, select).apply();
     }
-
-
 }

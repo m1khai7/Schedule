@@ -41,7 +41,6 @@ import myapp.schedule.misha.myapplication.module.schedule.edit.page.dialogCopy.l
 import myapp.schedule.misha.myapplication.module.schedule.edit.page.dialogCopy.lessons.DialogSelectLessonFragmentView;
 import myapp.schedule.misha.myapplication.module.schedule.edit.page.dialogCopy.weeks.DialogSelectWeekFragment;
 import myapp.schedule.misha.myapplication.module.schedule.edit.page.dialogCopy.weeks.DialogSelectWeekFragmentView;
-import myapp.schedule.misha.myapplication.module.schedule.edit.page.dialogEdit.DialogEditFragmentListItemsView;
 
 import static myapp.schedule.misha.myapplication.data.preferences.Preferences.DARK_THEME;
 
@@ -137,11 +136,11 @@ public class CopyFragment extends BaseMainFragment implements CopyFragmentView,
     }
 
     private void setView(View view) {
-        spinnerDay = view.findViewById(R.id.day);
+        spinnerDay = view.findViewById(R.id.educator);
         rvItems = view.findViewById(R.id.rv_dialog_list);
         relLayWeeks = view.findViewById(R.id.relLayWeeks);
         tvWeeks = view.findViewById(R.id.weeks);
-        tvLesson = view.findViewById(R.id.timeLesson);
+        tvLesson = view.findViewById(R.id.audience);
         imageAdd = view.findViewById(R.id.imageAdd);
     }
 
@@ -226,10 +225,10 @@ public class CopyFragment extends BaseMainFragment implements CopyFragmentView,
         if (v.getId() == R.id.relLayWeeks) {
             getPopupMenu(v.getContext(), relLayWeeks, R.menu.menu_weeks);
         }
-        if (v.getId() == R.id.day) {
+        if (v.getId() == R.id.educator) {
             getPopupMenu(v.getContext(), spinnerDay, R.menu.menu_days);
         }
-        if (v.getId() == R.id.timeLesson) {
+        if (v.getId() == R.id.audience) {
             presenter.onDialogLessonClick();
         }
     }

@@ -126,7 +126,7 @@
                     tools:hint="Преподаватель">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/day"
+                        android:id="@+id/educator"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
@@ -148,7 +148,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true">
 
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/audience_hint"
                     android:layout_width="wrap_content"
@@ -157,8 +156,8 @@
                     tools:hint="Аудитория">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/timeLesson"
-                        android:layout_width="match_parent"
+                        android:id="@+id/audience"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/audience_hint"
                         android:background="@null"
@@ -168,7 +167,7 @@
                         android:inputType="textNoSuggestions"
                         android:longClickable="false"
                         android:maxLines="1"
-                        android:minWidth="65sp"
+                        android:minWidth="70dp"
                         android:singleLine="true"
                         android:textSize="16sp"
                         tools:text="Аудитория" />

@@ -158,11 +158,9 @@
         android:id="@+id/btnNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_medium"
-        android:gravity="end"
-        android:paddingTop="@dimen/spacing_normal"
+        android:paddingVertical="@dimen/spacing_normal"
         android:text="@string/next"
         android:textAlignment="center"
         android:textSize="14sp" />

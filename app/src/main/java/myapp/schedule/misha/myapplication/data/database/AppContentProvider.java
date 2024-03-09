@@ -25,8 +25,7 @@ public class AppContentProvider extends ContentProvider {
     /**
      * Application Content provider URI.
      */
-    private static final Uri PROVIDER_URI
-            = Uri.parse("content://com.schedule.misha.myapplication.provider/");
+    private static final Uri PROVIDER_URI = Uri.parse("content://com.schedule.misha.myapplication.provider/");
     public static final Uri LESSONS_URI = Uri.parse(PROVIDER_URI + LESSONS_TABLE);
     public static final Uri SUBJECTS_URI = Uri.parse(PROVIDER_URI + SUBJECTS_TABLE);
     public static final Uri AUDIENCES_URI = Uri.parse(PROVIDER_URI + AUDIENCES_TABLE);

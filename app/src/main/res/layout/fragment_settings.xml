@@ -1,81 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="@dimen/spacing_micro">
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/createLesson"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_normal"
-        android:drawablePadding="@dimen/spacing_normal"
-        android:text="@string/create_lesson"
-        android:textSize="16sp" />
+        android:layout_margin="@dimen/spacing_micro"
+        android:orientation="vertical">
 
-    <View
-        style="?attr/lineColorStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="1dp" />
+        <TextView
+            android:id="@+id/createLesson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:drawablePadding="@dimen/spacing_normal"
+            android:text="@string/create_lesson"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/dateStartSemester"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_normal"
-        android:drawablePadding="@dimen/spacing_normal"
-        android:text="@string/data_start_semestr"
-        android:textSize="16sp" />
+        <View
+            style="?attr/lineColorStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp" />
 
-    <View
-        style="?attr/lineColorStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="1dp" />
+        <TextView
+            android:id="@+id/dateStartSemester"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:drawablePadding="@dimen/spacing_normal"
+            android:text="@string/data_start_semestr"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/changeTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_normal"
-        android:drawablePadding="@dimen/spacing_normal"
-        android:text="@string/settings_change_theme"
-        android:textSize="16sp" />
+        <View
+            style="?attr/lineColorStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp" />
 
-    <View
-        style="?attr/lineColorStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="1dp" />
+        <TextView
+            android:id="@+id/changeTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:drawablePadding="@dimen/spacing_normal"
+            android:text="@string/settings_change_theme"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/transferData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_normal"
-        android:drawablePadding="@dimen/spacing_normal"
-        android:text="@string/transfer"
-        android:textSize="16sp" />
+        <View
+            style="?attr/lineColorStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp" />
 
-    <View
-        style="?attr/lineColorStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="1dp" />
+        <TextView
+            android:id="@+id/transferData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:drawablePadding="@dimen/spacing_normal"
+            android:text="@string/title_transfer_data"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/developerInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_normal"
-        android:drawablePadding="@dimen/spacing_normal"
-        android:text="@string/developer"
-        android:textSize="16sp" />
+        <View
+            style="?attr/lineColorStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp" />
 
-    <View
-        style="?attr/lineColorStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="1dp" />
+        <TextView
+            android:id="@+id/developerInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:drawablePadding="@dimen/spacing_normal"
+            android:text="@string/developer"
+            android:textSize="16sp" />
 
-
-</LinearLayout>
+        <View
+            style="?attr/lineColorStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp" />
+    </LinearLayout>
+</ScrollView>

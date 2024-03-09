@@ -4,6 +4,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputLayout;
 import org.jetbrains.annotations.NotNull;
@@ -49,18 +51,20 @@ public class ScheduleListFragmentAdapter extends RecyclerView.Adapter {
 
     @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        switch (viewType) {
-            case 0:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lesson, parent, false);
-                return new ScheduleListFragmentAdapter.ViewHolderLesson(view);
-            case 1:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_data_day, parent, false);
-                return new ViewHolderDataDay(view);
-        }
-        return null;
-    }
+		return switch (viewType) {
+			case 0 -> {
+				view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lesson, parent, false);
+				yield new ViewHolderLesson(view);
+			}
+			case 1 -> {
+				view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_data_day, parent, false);
+				yield new ViewHolderDataDay(view);
+			}
+			default -> null;
+		};
+	}
 
     public void setLessonList(ArrayList<Lesson> lessonList) {
         this.lessonList = lessonList;
@@ -105,7 +109,7 @@ public class ScheduleListFragmentAdapter extends RecyclerView.Adapter {
                 if (typelesson == null) {
                     break;
                 } else {
-                    ((ScheduleListFragmentAdapter.ViewHolderLesson) holder).typelessonEdit.setText(typelesson.getName());
+                    ((ScheduleListFragmentAdapter.ViewHolderLesson) holder).typeLessonEdit.setText(typelesson.getName());
                 }
                 break;
             case 1:
@@ -134,7 +138,7 @@ public class ScheduleListFragmentAdapter extends RecyclerView.Adapter {
         private final TextView subjectEdit;
         private final TextView audienceEdit;
         private final TextView educatorEdit;
-        private final TextView typelessonEdit;
+        private final TextView typeLessonEdit;
         private final TextInputLayout subjectHint;
         private final TextInputLayout audienceHint;
         private final TextInputLayout educatorHint;
@@ -144,9 +148,9 @@ public class ScheduleListFragmentAdapter extends RecyclerView.Adapter {
             timeEditOne = view.findViewById(R.id.timeOne);
             timeEditTwo = view.findViewById(R.id.timeTwo);
             subjectEdit = view.findViewById(R.id.subject);
-            audienceEdit = view.findViewById(R.id.timeLesson);
-            educatorEdit = view.findViewById(R.id.day);
-            typelessonEdit = view.findViewById(R.id.typelesson);
+            audienceEdit = view.findViewById(R.id.audience);
+            educatorEdit = view.findViewById(R.id.educator);
+            typeLessonEdit = view.findViewById(R.id.typelesson);
             subjectHint = view.findViewById(R.id.subject_hint);
             audienceHint = view.findViewById(R.id.audience_hint);
             educatorHint = view.findViewById(R.id.educator_hint);

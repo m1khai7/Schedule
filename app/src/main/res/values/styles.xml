@@ -1,6 +1,4 @@
-<resources
-
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <attr name="cardStyle" format="reference" />
     <attr name="navBottomStyle" format="reference" />
     <attr name="tabLayoutStyle" format="reference" />
@@ -14,33 +12,10 @@
     <attr name="lineColorStyle" format="reference" />
     <attr name="titleTextColorStyle" format="reference" />
 
-    <style name="DarkTheme" parent="@style/Theme.AppCompat">
-        <item name="windowNoTitle">true</item>
-        <item name="toolbarStyle">@style/ToolBarDarkStyle</item>
-        <item name="cardStyle">@style/CardViewDarkStyle</item>
-        <item name="timeOneStyle">@style/TimeOneDarkStyle</item>
-        <item name="timeTwoStyle">@style/TimeTwoDarkStyle</item>
-        <item name="lineSpinnerItemStyle">@style/LineSpinnerItemDarkStyle</item>
-        <item name="typelessonStyle">@style/TypelessonDarkStyle</item>
-        <item name="textViewNumberCallStyle">@style/TextViewNumberCallDarkStyle</item>
-        <item name="tabLayoutStyle">@style/TabLayoutDarkStyle</item>
-        <item name="navBottomStyle">@style/BottomNavigationViewDarkStyle</item>
-        <item name="android:textAppearanceLargePopupMenu">@style/PopupMenuTextAppearanceLarge</item>
-        <item name="licensesStyle">@style/LicensesDarkStyle</item>
-        <item name="titleTextColorStyle">@style/TitleDarkStyle</item>
-        <item name="android:textColorHint">@color/whiteD3</item>
-        <item name="colorControlActivated">@color/colorAccent</item>
-        <item name="colorAccent">@color/black40</item>
-        <item name="colorPrimary">@color/colorAccent</item>
-        <item name="colorPrimaryDark">@color/black48</item>
-        <item name="android:colorBackground">@color/black40</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="lineColorStyle">@style/DarkLineColorStyle</item>
-    </style>
-
-
     <style name="LightTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_image</item>
+
         <item name="windowNoTitle">true</item>
         <item name="toolbarStyle">@style/ToolBarLightStyle</item>
         <item name="cardStyle">@style/CardViewLightStyle</item>
@@ -64,6 +39,34 @@
         <item name="android:textColor">@color/black20</item>
         <item name="android:textColorPrimary">@color/black20</item>
         <item name="lineColorStyle">@style/LightLineColorStyle</item>
+    </style>
+
+    <style name="DarkTheme" parent="@style/Theme.AppCompat">
+        <item name="windowSplashScreenBackground">@color/black40</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_image</item>
+
+        <item name="windowNoTitle">true</item>
+        <item name="toolbarStyle">@style/ToolBarDarkStyle</item>
+        <item name="cardStyle">@style/CardViewDarkStyle</item>
+        <item name="timeOneStyle">@style/TimeOneDarkStyle</item>
+        <item name="timeTwoStyle">@style/TimeTwoDarkStyle</item>
+        <item name="lineSpinnerItemStyle">@style/LineSpinnerItemDarkStyle</item>
+        <item name="typelessonStyle">@style/TypelessonDarkStyle</item>
+        <item name="textViewNumberCallStyle">@style/TextViewNumberCallDarkStyle</item>
+        <item name="tabLayoutStyle">@style/TabLayoutDarkStyle</item>
+        <item name="navBottomStyle">@style/BottomNavigationViewDarkStyle</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/PopupMenuTextAppearanceLarge</item>
+        <item name="licensesStyle">@style/LicensesDarkStyle</item>
+        <item name="titleTextColorStyle">@style/TitleDarkStyle</item>
+        <item name="android:textColorHint">@color/whiteD3</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorAccent">@color/black40</item>
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/black48</item>
+        <item name="android:colorBackground">@color/black40</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="lineColorStyle">@style/DarkLineColorStyle</item>
     </style>
 
     <style name="ToolBarDarkStyle" parent="Widget.AppCompat.Toolbar">
@@ -205,11 +208,4 @@
     <style name="PopupMenuTextAppearanceLarge" parent="@android:style/TextAppearance.DeviceDefault.Widget.PopupMenu.Large">
         <item name="android:textSize">15sp</item>
     </style>
-
-    <style name="splashScreenTheme" parent="DarkTheme">
-        <item name="android:windowBackground">@drawable/splash_image</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
-
 </resources>

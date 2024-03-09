@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,13 +35,13 @@ import static myapp.schedule.misha.myapplication.data.preferences.Preferences.DA
 
 public class EditScheduleFragmentPagerAdapter extends RecyclerView.Adapter<EditScheduleFragmentPagerAdapter.ViewHolder> {
 
-    private EditSchedulePagePresenterInterface callback;
+    private final EditSchedulePagePresenterInterface callback;
     private List<Lesson> lessonList;
     private Subject subject;
     private Audience audience;
     private Educator educator;
     private Typelesson typelesson;
-    private Context context;
+    private final Context context;
 
     public EditScheduleFragmentPagerAdapter(EditSchedulePagePresenterInterface editScheduleCallback, Context context) {
         this.callback = editScheduleCallback;
@@ -52,6 +53,7 @@ public class EditScheduleFragmentPagerAdapter extends RecyclerView.Adapter<EditS
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -86,8 +88,8 @@ public class EditScheduleFragmentPagerAdapter extends RecyclerView.Adapter<EditS
             timeEditOne = view.findViewById(R.id.timeOne);
             timeEditTwo = view.findViewById(R.id.timeTwo);
             subjectEdit = view.findViewById(R.id.subject);
-            audienceEdit = view.findViewById(R.id.timeLesson);
-            educatorEdit = view.findViewById(R.id.day);
+            audienceEdit = view.findViewById(R.id.audience);
+            educatorEdit = view.findViewById(R.id.educator);
             typeLessonEdit = view.findViewById(R.id.typelesson);
             textViewOptions = view.findViewById(R.id.menuOptions);
             subjectEdit.setOnClickListener(this);
@@ -134,8 +136,8 @@ public class EditScheduleFragmentPagerAdapter extends RecyclerView.Adapter<EditS
             int id = v.getId();
             int position = getAdapterPosition();
             if (id == R.id.subject) callback.onSubjectClick(position);
-            if (id == R.id.timeLesson) callback.onAudienceClick(position);
-            if (id == R.id.day) callback.onEducatorClick(position);
+            if (id == R.id.audience) callback.onAudienceClick(position);
+            if (id == R.id.educator) callback.onEducatorClick(position);
             if (id == R.id.typelesson) callback.onTypelessonClick(position);
             if (id == R.id.menuOptions) popup.show();
         }
@@ -159,7 +161,8 @@ public class EditScheduleFragmentPagerAdapter extends RecyclerView.Adapter<EditS
             if (id == R.id.clearDay) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(ScheduleApp.getStr(R.string.dialog_clear_day))
-                        .setPositiveButton(ScheduleApp.getStr(R.string.ack), (dialog, idButton) -> callback.onClearDayClick())
+                        .setPositiveButton(ScheduleApp.getStr(android.R.string.ok),
+                                (dialog, idButton) -> callback.onClearDayClick())
                         .setNegativeButton(ScheduleApp.getStr(android.R.string.cancel),
                                 (dialog, idButton) -> dialog.cancel());
                 builder.create().show();

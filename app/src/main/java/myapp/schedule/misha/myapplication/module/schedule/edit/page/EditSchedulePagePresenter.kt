@@ -107,7 +107,7 @@ class EditSchedulePagePresenter(private val context: BaseActivity, private var p
 
     override fun onCreateDialogCopyWeek(listWeeks: ArrayList<Weeks>) {
         val builder = AlertDialog.Builder(context)
-        builder.setCancelable(false).setPositiveButton(R.string.ack) { _, _ ->
+        builder.setCancelable(false).setPositiveButton(android.R.string.ok) { _, _ ->
             listWeeks.forEach {
                 if (it.isChecked == true) {
                     lessonListWeekCurrent = LessonDao.getInstance().getLessonByWeek(positionWeek + 1)
@@ -126,7 +126,7 @@ class EditSchedulePagePresenter(private val context: BaseActivity, private var p
 
     override fun onCreateDialogClearWeek(listWeeks: ArrayList<Weeks>) {
         val builder = AlertDialog.Builder(context)
-        builder.setCancelable(false).setPositiveButton(R.string.ack) { _, _ ->
+        builder.setCancelable(false).setPositiveButton(android.R.string.ok) { _, _ ->
             listWeeks.forEach {
                 if (it.isChecked == true) {
                     lessonList = LessonDao.getInstance().getLessonByWeek(it.number)

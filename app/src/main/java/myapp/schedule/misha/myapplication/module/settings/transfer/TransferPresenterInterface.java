@@ -1,10 +1,18 @@
 package myapp.schedule.misha.myapplication.module.settings.transfer;
 
+import android.net.Uri;
+
 public interface TransferPresenterInterface {
 
-    void onClickImport();
+	void onClickShareFile();
 
-    void onClickExport();
+	void onClickReceiveFile();
 
-    void import_data(String file);
+	void onClickSaveFile();
+
+	void parseFile(Uri uri);
+
+	void onInfoMenuClick();
+
+	void saveFileByUri(Uri uri);
 }

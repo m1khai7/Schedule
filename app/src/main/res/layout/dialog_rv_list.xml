@@ -12,18 +12,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_micro"
-        android:layout_marginBottom="@dimen/spacing_micro"
         android:layout_marginEnd="@dimen/spacing_micro"
+        android:layout_marginBottom="@dimen/spacing_micro"
         android:textSize="19sp"
         tools:text="Преподаватель" />
 
     <View
         android:id="@+id/viewLine"
+        style="?attr/lineColorStyle"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:layout_marginTop="@dimen/spacing_medium"
         android:layout_below="@+id/dialog_textView"
-        style="?attr/lineColorStyle"/>
+        android:layout_marginTop="@dimen/spacing_medium" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_dialog_list"
@@ -35,6 +35,7 @@
 
     <LinearLayout
         android:id="@+id/linLay"
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -42,19 +43,21 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/spacing_medium"
-            android:text="@string/add"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/btn_cancel"
+            android:id="@+id/btn_close"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/spacing_medium"
             android:text="@string/close"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_add"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_medium"
+            android:text="@string/add"
             android:textSize="14sp" />
     </LinearLayout>
 

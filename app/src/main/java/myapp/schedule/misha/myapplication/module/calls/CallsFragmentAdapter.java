@@ -22,7 +22,7 @@ public class CallsFragmentAdapter extends RecyclerView.Adapter<CallsFragmentAdap
 
 
     private ArrayList<Calls> callsList = new ArrayList<>();
-    private CallsPresenter itemClickListener;
+    private final CallsPresenter itemClickListener;
 
 
     public CallsFragmentAdapter(CallsPresenter callsScheduleCallback) {
@@ -52,14 +52,13 @@ public class CallsFragmentAdapter extends RecyclerView.Adapter<CallsFragmentAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final CardView cardViewCall;
-        private final TextView numberCall;
+		private final TextView numberCall;
         private final TextView call_timeOne;
         private final TextView call_timeTwo;
 
         public ViewHolder(View view) {
             super(view);
-            cardViewCall = view.findViewById(R.id.call_cardView);
+			CardView cardViewCall = view.findViewById(R.id.call_cardView);
             numberCall = view.findViewById(R.id.call_number);
             call_timeOne = view.findViewById(R.id.call_timeOne);
             call_timeTwo = view.findViewById(R.id.call_timeTwo);
@@ -67,7 +66,6 @@ public class CallsFragmentAdapter extends RecyclerView.Adapter<CallsFragmentAdap
             call_timeOne.setOnClickListener(this);
             call_timeTwo.setOnClickListener(this);
             view.setOnClickListener(this);
-
         }
 
         @SuppressLint("SetTextI18n")

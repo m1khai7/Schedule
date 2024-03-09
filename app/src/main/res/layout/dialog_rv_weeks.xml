@@ -49,6 +49,7 @@
 
     <LinearLayout
         android:id="@+id/linLay"
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -56,21 +57,23 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_micro"
-            android:padding="@dimen/spacing_medium"
-            android:text="@string/ack"
-            android:textSize="14sp" />
-
-        <Button
             android:id="@+id/btn_cancel"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_micro"
             android:padding="@dimen/spacing_medium"
             android:text="@string/close"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_micro"
+            android:padding="@dimen/spacing_medium"
+            android:text="@android:string/ok"
             android:textSize="14sp" />
     </LinearLayout>
 

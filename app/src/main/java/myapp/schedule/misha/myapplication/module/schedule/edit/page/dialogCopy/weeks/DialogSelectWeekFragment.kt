@@ -40,13 +40,13 @@ class DialogSelectWeekFragment : BaseAlertDialog(), DialogSelectWeekFragmentView
         presenter = DialogSelectWeekFragmentPresenter()
         dialogFragmentListItemsAdapter = DialogSelectWeekFragmentAdapter()
         val layoutInflater = LayoutInflater.from(context)
-        listWeeks = arguments!!.getParcelableArrayList(Constants.LIST_ITEMS)
-        val code = arguments!!.getInt(Constants.FRAGMENT)
+        listWeeks = requireArguments().getParcelableArrayList(Constants.LIST_ITEMS)
+        val code = requireArguments().getInt(Constants.FRAGMENT)
         val view = layoutInflater.inflate(R.layout.dialog_rv_weeks, null)
         val builder = AlertDialog.Builder(context)
         builder.setView(view)
         val rvItems = view.findViewById<RecyclerView>(R.id.rv_dialog_list)
-        rvItems.addItemDecoration(DividerItemDecoration(activity!!, LinearLayoutManager.VERTICAL))
+        rvItems.addItemDecoration(DividerItemDecoration(requireActivity(), LinearLayoutManager.VERTICAL))
         rvItems.adapter = dialogFragmentListItemsAdapter
         updateAdapter()
         view.findViewById<View>(R.id.btn_ok).setOnClickListener {
@@ -61,16 +61,16 @@ class DialogSelectWeekFragment : BaseAlertDialog(), DialogSelectWeekFragmentView
                 val intent = Intent()
                 intent.putExtra(Constants.LIST_ITEMS, listWeeks)
                 if (code == DialogSelectWeekFragmentView.LIST_ITEMS)
-                    parentFragment!!.onActivityResult(DialogSelectWeekFragmentView.LIST_ITEMS, Activity.RESULT_OK, intent)
+                    requireParentFragment().onActivityResult(DialogSelectWeekFragmentView.LIST_ITEMS, Activity.RESULT_OK, intent)
                 if (code == DialogSelectWeekFragmentView.CLEAR)
-                    parentFragment!!.onActivityResult(DialogSelectWeekFragmentView.CLEAR, Activity.RESULT_OK, intent)
+                    requireParentFragment().onActivityResult(DialogSelectWeekFragmentView.CLEAR, Activity.RESULT_OK, intent)
                 if (code == DialogSelectWeekFragmentView.COPY)
-                    parentFragment!!.onActivityResult(DialogSelectWeekFragmentView.COPY, Activity.RESULT_OK, intent)
+                    requireParentFragment().onActivityResult(DialogSelectWeekFragmentView.COPY, Activity.RESULT_OK, intent)
                 dismiss()
             }
         }
-        view.findViewById<View>(R.id.btn_cancel).setOnClickListener { v -> dismiss() }
-        view.findViewById<View>(R.id.btn_select_all).setOnClickListener { v -> presenter!!.onSelectAllClicked() }
+        view.findViewById<View>(R.id.btn_cancel).setOnClickListener { dismiss() }
+        view.findViewById<View>(R.id.btn_select_all).setOnClickListener { presenter!!.onSelectAllClicked() }
         return builder.create()
     }
 

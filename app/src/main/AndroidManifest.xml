@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="myapp.schedule.misha.myapplication">
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
 
     <application
         android:name=".ScheduleApp"
@@ -12,45 +8,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_app"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning">
-
-        <uses-library
-            android:name="android.test.runner"
-            android:required="false" />
-
-        <uses-library
-            android:name="android.test.base"
-            android:required="false" />
-
-        <uses-library
-            android:name="android.test.mock"
-            android:required="false" />
+        android:theme="@style/LightTheme">
 
         <activity
-            android:name=".activity.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/splashScreenTheme"
-            android:exported="true">
+            android:name=".activity.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".activity.MainActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity android:name=".activity.ActivityCopyLesson" />
 
-        <activity
-            android:name=".activity.ActivityCopyLesson"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.ActivityCreateLesson"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ActivityCreateLesson" />
 
         <provider
             android:name=".data.database.AppContentProvider"
@@ -58,6 +30,14 @@
             android:exported="false"
             android:multiprocess="true" />
 
+        <provider
+            android:name=".NewFileProvider"
+            android:authorities="myapp.schedule.misha.myapplication.NewFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider" />
+        </provider>
     </application>
-
 </manifest>
